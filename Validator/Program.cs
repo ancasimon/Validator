@@ -169,10 +169,21 @@ namespace Validator
             }
 
 
-
-
             //PART 6 - Palindrome validation:
-
+            Console.WriteLine("What's your favorite palindrome?? You know - a word, phrase, or sequence that reads the same backward as forward - for ex: madam, nurses run, racecar, - A man, a plan, a canal, Panama! ");
+            string userString, reversedUserString;
+            userString = Console.ReadLine();
+            char[] charArrayFromUserString = userString.ToCharArray();
+            Array.Reverse(charArrayFromUserString);
+            reversedUserString = new string(charArrayFromUserString);
+            bool isPalindrome = userString.Equals(reversedUserString, StringComparison.OrdinalIgnoreCase);
+            if (isPalindrome ==true)
+            {
+                Console.WriteLine("Yes! " + userString + " is a palindrome!!");
+            } else
+            {
+                Console.WriteLine("Bummer: " + userString + " is not a palindrome ...");
+            }
 
 
 
