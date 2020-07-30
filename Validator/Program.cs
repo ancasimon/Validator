@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Validator
@@ -150,16 +151,22 @@ namespace Validator
             Console.WriteLine("Who's your favorite Power Ranger?");
             string userPowerRanger = Console.ReadLine();
 
-            //Array systemArrayOfPowerRangerName = (Array) userPowerRanger; //trying to convert the string to a systemarray here - UNsuccessfully ...
+            //list of names here:
+            var powerRangerNames = new List<string>() { "Jason Lee Scott", "Rocky DeSantos", "Zack Taylor", "Adam Park", "Billy Cranston", "Trini Kwan", "Aisha Campbell", "Kimberly Ann Hart", "Katherine Hillard", "Tommy Oliver"};
 
-            //initial string here:
-            string[] powerRangerNames =
-            { "Jason Lee Scott", "Rocky DeSantos", "Zack Taylor", "Adam Park", "Billy Cranston", "Trini Kwan", "Aisha Campbell", "Kimberly Ann Hart", "Katherine Hillard", "Tommy Oliver"};
+            //bool check:
+            bool isValidPowerRanger = false;
 
-            //bool isValidPowerRanger = false;
+            //loop to compare each string to the user's input:
+            foreach (string name in powerRangerNames)
+            {
+                if (userPowerRanger.Equals(name, StringComparison.OrdinalIgnoreCase))
+                {
+                    isValidPowerRanger = true;
+                }
+            }
 
-            //if (powerRangerNames.IndexOf(systemArrayOfPowerRangerName, StringComparison.OrdinalIgnoreCase) >= 0); another option I was looking at in order to ignore case and accept lower case for ex.- BUT  I need to convert a string to System.Array - because apparently the method IndexOf works on a System. Array?? but not on a string -- 
-            if (powerRangerNames.Contains(userPowerRanger))
+            if (isValidPowerRanger == true)
             {
                 Console.WriteLine("Good one!");
             }
@@ -177,7 +184,7 @@ namespace Validator
             Array.Reverse(charArrayFromUserString);
             reversedUserString = new string(charArrayFromUserString);
             bool isPalindrome = userString.Equals(reversedUserString, StringComparison.OrdinalIgnoreCase);
-            if (isPalindrome ==true)
+            if (userString.Length > 0 && isPalindrome == true)
             {
                 Console.WriteLine("Yes! " + userString + " is a palindrome!!");
             } else
