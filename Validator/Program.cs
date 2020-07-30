@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System;
+using System.Linq;
 
 namespace Validator
 {
@@ -139,6 +140,40 @@ namespace Validator
                 }
 
             }
+
+
+            //PART 4 - SpongeBob SquarePants???
+
+
+
+            //PART 5 - Power Ranger name validation:
+            Console.WriteLine("Who's your favorite Power Ranger?");
+            string userPowerRanger = Console.ReadLine();
+
+            //Array systemArrayOfPowerRangerName = (Array) userPowerRanger; //trying to convert the string to a systemarray here - UNsuccessfully ...
+
+            //initial string here:
+            string[] powerRangerNames =
+            { "Jason Lee Scott", "Rocky DeSantos", "Zack Taylor", "Adam Park", "Billy Cranston", "Trini Kwan", "Aisha Campbell", "Kimberly Ann Hart", "Katherine Hillard", "Tommy Oliver"};
+
+            //bool isValidPowerRanger = false;
+
+            //if (powerRangerNames.IndexOf(systemArrayOfPowerRangerName, StringComparison.OrdinalIgnoreCase) >= 0); another option I was looking at in order to ignore case and accept lower case for ex.- BUT  I need to convert a string to System.Array - because apparently the method IndexOf works on a System. Array?? but not on a string -- 
+            if (powerRangerNames.Contains(userPowerRanger))
+            {
+                Console.WriteLine("Good one!");
+            }
+            else
+            {
+                Console.WriteLine("Did you spell it correctly? Try again!");
+            }
+
+
+
+
+            //PART 6 - Palindrome validation:
+
+
 
 
             Console.ReadKey();
