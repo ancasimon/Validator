@@ -154,41 +154,50 @@ namespace Validator
                 if (userPhrase.Length == 0)
                 {
                 Console.WriteLine("You must type a sentence!");
-                }
-
-                //2 - Calculate the length of the user's input:
+                } else
+            {
+                //2 - Calculate the length of the string in the user's input:
                 int userPhraseLength = userPhrase.Length;
 
-                //3 - Check if the first character is a capital letter:
-                bool isFirstLetterCapital = false;
-                if (userPhrase[0] >= 'A' || userPhrase[0] <= 'Z')
+                //declare the bool that you can use to validate the sentence:
+                bool lastCheck = false;
+
+                //3 - Check if the first character is a capital letter / lies in the [A-Z] range:
+                bool isFirstLetterCapital = true;
+                if (userPhrase[0] < 'A' || userPhrase[0] > 'Z')
                 {
-                    isFirstLetterCapital = true;
+                    isFirstLetterCapital = false;
+                    Console.WriteLine("Rule 1: Start with upper case, please!!");
                 }
 
                 //4 - Check if the last character is a period:
-                bool isLastCharPeriod = false;
-                if (userPhrase[userPhraseLength - 1] == '.')
+                bool isLastCharPeriod = true;
+                if (userPhrase[userPhraseLength - 1] != '.')
                 {
-                    isLastCharPeriod = true;
+                    isLastCharPeriod = false;
+                    Console.WriteLine("Rule 2: You must end sentences with a period!");
                 }
 
                 //5 - Set states for each character in the user input so that you can compare them and check for the following rules:
                 //Two continuous spaces are not allowed. 
                 //Two continuous upper case characters are not allowed. 
                 //Lowercase must follow an uppercase character.
-                //There must be spaces between words - HOW DO WE CHECK THAT??
+                //There must be spaces between words - We don't actaully check this - we just allow spaces within the sentence - assuming it's between words. 
 
+                //initialize the 2 new states with 0 as the beginning state:
                 int prev_state = 0, curr_state = 0;
+
+                //declare the bool for this block of code:
                 bool checkSentence = false;
 
-                //Capture the index of the character in the string. 
+                //Keep the index to the next character in the string: 
                 int indexPosition = 1;
 
-                //Loop over the string and set the state for each character:
-                while (indexPosition <= userPhrase.Length)
+                //Loop over the string:
+                while (indexPosition < userPhrase.Length)
                 {
-
+                    //Console.WriteLine($"index: {userPhrase} - {indexPosition}");
+                    //Then set the 2 states according to the input characters in the string and the rules defined above:
                     //If the current caharacter is A-Z, then set the current state as 0:
                     if (userPhrase[indexPosition] >= 'A' && userPhrase[indexPosition] <= 'Z')
                         curr_state = 0;
@@ -206,37 +215,56 @@ namespace Validator
                         curr_state = 3;
 
                     //6 - Compare states to validate that the rules outlined above under step 5 are met:
-                    Console.WriteLine($"previous and current states for each character: {prev_state} and {curr_state}");
+                    //Console.WriteLine($"previous and current states for each character: {userPhrase[indexPosition]} - {prev_state} and {curr_state}");
 
-                    //If a character is anything but a lower-case character, then it cannot follow a capital letter - so you wouldn't have a capital letter before a space:
+                    //If a character is anything but a lower-case character, then it cannot follow a capital letter - so you wouldn't have a capital letter before a space - or the sentence is incorrect:
                     if (prev_state == curr_state && curr_state != 2)
                     {
                         checkSentence = false;
+                        Console.WriteLine("Rule 3: Current state must be lower case because it follows upper case - so > INCORRECT!");
                     }
 
-                    //If 
+                    //If the current character is upper case but the previous one was lower case, the sentence is incorrect:
                     if (prev_state == 2 && curr_state == 0)
                     {
                         checkSentence = false;
+                        Console.WriteLine("Rule 4:Prev state was lower case and current state is upper case - so > INCORRECT!");
                     }
 
-                    //
+                    //If we have reached the last state and previous state is not 1, then check the next character. If the next character is '\0' - meaning the last character in the array, then return true; else, return false.
                     if (curr_state == 3 && prev_state != 1)
-                        checkSentence = true;
-                        //return (indexPosition + 1 == userPhrase.Length);
+                    {
+                        int nextCharPosition = indexPosition + 1;
+                        //Console.WriteLine("Rule 5: Current state is a period, so it had better be the last character in the sentence. Is it??");
+                        if (nextCharPosition == userPhraseLength)
+                        {
+                            checkSentence = true;
+                            //Console.WriteLine("That was the last char!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Rule 5: This period is not the last character! Failed!!!!.");
+                        }
+                    }
 
                     indexPosition++;
 
-                    //Set previous state as current state before foing over to the next character:
+                    //Set previous state as current state before going over to the next character:
                     prev_state = curr_state;
 
                 }
-                checkSentence = false;
-                //return false;
 
-            //}
+                if (checkSentence == true && isFirstLetterCapital == true && isLastCharPeriod == true)
+                {
+                    Console.WriteLine("Look at that beautiful sentence!");
+                }
+                else
+                {
+                    Console.WriteLine("You need some English grammar 101!");
+                }
 
-            //checkGrammar(userPhrase.ToCharArray());
+                //checkGrammar(userPhrase.ToCharArray());
+            }
 
 
             //PART 5 - Power Ranger name validation:
