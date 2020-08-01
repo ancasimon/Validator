@@ -9,138 +9,159 @@ namespace Validator
     {
         static void Main(string[] args)
         {
+            string tryAgain = null;
             //PART 1: Validate a pin:
-            Console.WriteLine("Please specify a pin.");
-            string userPin = Console.ReadLine();
-            //bool isValidPin = false;
-            //int n; 
-            bool isNumericPin = int.TryParse(userPin, out _);
-            //Console.WriteLine($"isNumericPin bool value: {isNumericPin}");
 
-            if (string.IsNullOrEmpty(userPin))
+            do
             {
-                Console.WriteLine("You must enter a pin first!");
-            }
-            else
-            {
-                if (userPin.Length >= 4 && userPin.Length <= 8 && isNumericPin == true)
+                Console.WriteLine("Please specify a pin.");
+                string userPin = Console.ReadLine();
+                //bool isValidPin = false;
+                //int n; 
+                bool isNumericPin = int.TryParse(userPin, out _);
+                //Console.WriteLine($"isNumericPin bool value: {isNumericPin}");
+
+                if (string.IsNullOrEmpty(userPin))
                 {
-                    //isValidPin = true;
-                    Console.WriteLine("Pin is valid!");
+                    Console.WriteLine("You must enter a pin first!");
                 }
                 else
                 {
-                    Console.WriteLine("Sorry, it's not a valid pin.");
+                    if (userPin.Length >= 4 && userPin.Length <= 8 && isNumericPin == true)
+                    {
+                        //isValidPin = true;
+                        Console.WriteLine("Pin is valid!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Sorry, it's not a valid pin.");
+                    }
                 }
-            }
+
+                Console.WriteLine("Would you like to try again? (Y or N)");
+                tryAgain = Console.ReadLine();
+
+            } while (tryAgain.ToLower() != "n");
 
 
 
 
             //PART 2: Validate phone number:
-            Console.WriteLine("Please enter a phone number.");
-            string userPhoneNumber = Console.ReadLine();
 
-            //The next step allows the valid phone number characters in (space, -, () ), but it replaces them with no space and declares a new variable to store the new string created as a result of the Replace method.
-            string trimmedPhoneNumber = userPhoneNumber.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "");
-            //Console.WriteLine(trimmedPhoneNumber);
+            do
+            {
+                Console.WriteLine("Please enter a phone number.");
+                string userPhoneNumber = Console.ReadLine();
 
-            //Then we check that the trimmed string includes only numeric characters:
-            bool isNumericOnly = Int64.TryParse(trimmedPhoneNumber, out long _);
-            //Console.WriteLine($"numeric only? {isNumericOnly}");
+                //The next step allows the valid phone number characters in (space, -, () ), but it replaces them with no space and declares a new variable to store the new string created as a result of the Replace method.
+                string trimmedPhoneNumber = userPhoneNumber.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "");
+                //Console.WriteLine(trimmedPhoneNumber);
 
-            //Next we will count the number of numeric characters in the phone number:
-            int digitCount = 0;
-            foreach (char c in trimmedPhoneNumber)
-            {
-                if (Char.IsDigit(c))
-                    digitCount++;
-            }
-            //Console.WriteLine("digit count: "+digitCount);
+                //Then we check that the trimmed string includes only numeric characters:
+                bool isNumericOnly = Int64.TryParse(trimmedPhoneNumber, out long _);
+                //Console.WriteLine($"numeric only? {isNumericOnly}");
 
-            //Last we make sure the first 3 characters are not 555:
-            string userPhoneFirstThree;
-            if (trimmedPhoneNumber.Length > 2)
-            {
-                userPhoneFirstThree = trimmedPhoneNumber.Substring(0, 3);
-                //Console.WriteLine($"first 3 characters are: {userPhoneFirstThree}");
-            }
-            else
-            {
-                userPhoneFirstThree = "";
-            }
-
-            if (string.IsNullOrEmpty(userPhoneNumber))
-            {
-                Console.WriteLine("You must enter a phone number!");
-            }
-            else
-            {
-                if (isNumericOnly == true && digitCount == 10 && userPhoneFirstThree != "555")
+                //Next we will count the number of numeric characters in the phone number:
+                int digitCount = 0;
+                foreach (char c in trimmedPhoneNumber)
                 {
-                    Console.WriteLine("Valid phone number!");
+                    if (Char.IsDigit(c))
+                        digitCount++;
+                }
+                //Console.WriteLine("digit count: "+digitCount);
+
+                //Last we make sure the first 3 characters are not 555:
+                string userPhoneFirstThree;
+                if (trimmedPhoneNumber.Length > 2)
+                {
+                    userPhoneFirstThree = trimmedPhoneNumber.Substring(0, 3);
+                    //Console.WriteLine($"first 3 characters are: {userPhoneFirstThree}");
                 }
                 else
                 {
-                    Console.WriteLine("Sorry, not a valid phone number! Try again!");
+                    userPhoneFirstThree = "";
                 }
-            }
+
+                if (string.IsNullOrEmpty(userPhoneNumber))
+                {
+                    Console.WriteLine("You must enter a phone number!");
+                }
+                else
+                {
+                    if (isNumericOnly == true && digitCount == 10 && userPhoneFirstThree != "555")
+                    {
+                        Console.WriteLine("Valid phone number!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Sorry, not a valid phone number! Try again!");
+                    }
+                }
+                Console.WriteLine("Would you like to try again? (Y or N)");
+                tryAgain = Console.ReadLine();
+            } while (tryAgain.ToLower() != "n");
+
+
 
 
 
 
             //PART 3: Validate email address:
-            Console.WriteLine("Please enter an email address.");
-            string userEmail = Console.ReadLine();
-            string userName;
-            string domainName;
-            string dotComString;
-            int indexPositionOfAt = userEmail.IndexOf('@');
-            if (indexPositionOfAt == -1)
+            do
             {
-                Console.WriteLine("Please enter a VALID email address!!");
-            }
-            else //Feels I should have en else here because otherwise, I get an error if the domainName substring below has to start an a nonexistent number ....
-            {
-                userName = userEmail.Substring(0, indexPositionOfAt);
-                domainName = userEmail.Substring(indexPositionOfAt + 1); //Added plus 1 so that I don't include the @ in the domain name - and thus can make sure it doesn't include extra @!!!
-
-                int indexPositionOfDot = domainName.IndexOf('.');
-
-                if (indexPositionOfDot == -1)
+                Console.WriteLine("Please enter an email address.");
+                string userEmail = Console.ReadLine();
+                string userName;
+                string domainName;
+                string dotComString;
+                int indexPositionOfAt = userEmail.IndexOf('@');
+                if (indexPositionOfAt == -1)
                 {
                     Console.WriteLine("Please enter a VALID email address!!");
                 }
-                else
+                else //Feels I should have en else here because otherwise, I get an error if the domainName substring below has to start an a nonexistent number ....
                 {
-                    dotComString = domainName.Substring(indexPositionOfDot);
+                    userName = userEmail.Substring(0, indexPositionOfAt);
+                    domainName = userEmail.Substring(indexPositionOfAt + 1); //Added plus 1 so that I don't include the @ in the domain name - and thus can make sure it doesn't include extra @!!!
 
-                    bool containsMoreThanOneAt = domainName.Contains("@");
+                    int indexPositionOfDot = domainName.IndexOf('.');
 
-                    //Console.WriteLine($"index of at: {indexPositionOfAt}");
-                    //Console.WriteLine($"index of dot: {indexPositionOfDot}");
-                    //Console.WriteLine($"more than one at: {containsMoreThanOneAt}");
-                    //Console.WriteLine($"username: {userName}");
-                    //Console.WriteLine($"domain: {domainName}");
-                    //Console.WriteLine($"dotcom string: {dotComString}");
-
-                    if (indexPositionOfAt != -1 &&
-                            indexPositionOfDot != -1 &&
-                            containsMoreThanOneAt == false &&
-                            userName.Length > 0 &&
-                            domainName.Length > 0 &&
-                            dotComString.Length > 0)
+                    if (indexPositionOfDot == -1)
                     {
-                        Console.WriteLine("You got it! Valid!!!");
+                        Console.WriteLine("Please enter a VALID email address!!");
                     }
                     else
                     {
-                        Console.WriteLine("Sorry - invalid email address. Please try again!");
+                        dotComString = domainName.Substring(indexPositionOfDot);
+
+                        bool containsMoreThanOneAt = domainName.Contains("@");
+
+                        //Console.WriteLine($"index of at: {indexPositionOfAt}");
+                        //Console.WriteLine($"index of dot: {indexPositionOfDot}");
+                        //Console.WriteLine($"more than one at: {containsMoreThanOneAt}");
+                        //Console.WriteLine($"username: {userName}");
+                        //Console.WriteLine($"domain: {domainName}");
+                        //Console.WriteLine($"dotcom string: {dotComString}");
+
+                        if (indexPositionOfAt != -1 &&
+                                indexPositionOfDot != -1 &&
+                                containsMoreThanOneAt == false &&
+                                userName.Length > 0 &&
+                                domainName.Length > 0 &&
+                                dotComString.Length > 0)
+                        {
+                            Console.WriteLine("You got it! Valid!!!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Sorry - invalid email address. Please try again!");
+                        }
+
                     }
-
                 }
-
-            }
+                    Console.WriteLine("Would you like to try again? (Y or N)");
+                    tryAgain = Console.ReadLine();
+            } while (tryAgain.ToLower() != "n");
 
 
             //PART 4 - Validate sentence case and capitalization. 
